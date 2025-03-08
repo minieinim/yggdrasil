@@ -83,11 +83,11 @@ def _eval(code):
  global cflag,stack,si
  i=0
  while i<len(code):
-  print(stack)
-  print(label)
+# print(stack)
+# print(label)
 # print(code[i])
 # print(cflag)
-  print(si)
+# print(si)
 # time.sleep(0.25)
   if code[i]==0:
    print("Invalid instruction")
@@ -136,7 +136,7 @@ def _eval(code):
     return
   elif code[i]==52 and cflag==2:
    i+=1
-   si.appendld(i)
+   si.append(i)
    if code[i][0]=="i":
     i=int(code[i][1])-2
     cflag=0
@@ -173,8 +173,8 @@ def _eval(code):
   elif code[i]==70:
    i+=1
    if code[i][0]=="s":
-    if code[i][1] in ["ip","$"]:
-     print("Label Cannot Have %s as A Name" % (code[i][1]))
+    if code[i][1] == "$":
+     print("%s is a constant label" % (code[i][1]))
      return
     label[code[i][1]]=i
    else:
@@ -200,7 +200,7 @@ def main(file):
  fin=open(file,"r")
  src=fin.read()
  code=tobc(split(src))
- print(code)
+# print(code)
  _eval(code)
  fin.close()
  return
