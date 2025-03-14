@@ -197,7 +197,11 @@ def _eval(code):
  return
 
 def main(file):
- fin=open(file,"r")
+ try:
+  fin=open(file,"r")
+ except IOError:
+  print("File Not Found")
+  return
  src=fin.read()
  code=tobc(split(src))
 # print(code)
@@ -207,6 +211,6 @@ def main(file):
 
 if __name__=="__main__":
  if len(sys.argv)==1:
-  print("No File Found")
+  print("No File Given")
   exit(-1)
  main(sys.argv[1])
