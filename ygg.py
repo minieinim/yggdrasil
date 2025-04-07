@@ -7,7 +7,18 @@ def split(a:str) -> list[tuple[str]]:
   if a[i]=='"':
    i+=1
    while i<len(a) and a[i]!='"':
-    j+=a[i]
+    if a[i]=="\\":
+     i+=1
+     if a[i]=="n":
+      j+="\n"
+     elif a[i]=="t":
+      j+="\t"
+     elif a[i]=="\"":
+      j+='"'
+     elif a[i]=="\\":
+      j+="\\"
+    else:
+     j+=a[i]
     i+=1
    res.append(("s",j));j=""
   elif a[i].isdigit():
@@ -31,7 +42,7 @@ si=[]
 cflag=0 # 1 - eq; 2 - lt; 3 - gt
 # 1 - push
 # 2 - pop
-# 3 - out; 3.1 - echo
+# 3 - out
 # 4 - flip
 # 5 - goto; 5.1 - gote; 5.2 - gotl; 5.3 - gotg; 5.4 - ret
 # 6 - cmp
@@ -117,10 +128,8 @@ def _eval(code):
    si.append(i)
    if code[i][0]=="i":
     i=int(code[i][1])-2
-    cflag=0
    elif code[i][0]=="s":
     i=label[code[i][1]] if code[i][1]!="$" else len(code)-1
-    cflag=0
    else:
     print("GT:Not A Number Or Label")
     return
@@ -139,10 +148,8 @@ def _eval(code):
    si.append(i)
    if code[i][0]=="i":
     i=int(code[i][1])-2
-    cflag=0
    elif code[i][0]=="s":
     i=label[code[i][1]] if code[i][1]!="$" else len(code)-1
-    cflag=0
    else:
     print("GL:Not A Number Or Label")
     return
@@ -151,15 +158,13 @@ def _eval(code):
    si.append(i)
    if code[i][0]=="i":
     i=int(code[i][1])-2
-    cflag=0
    elif code[i][0]=="s":
     i=label[code[i][1]] if code[i][1]!="$" else len(code)-1
-    cflag=0
    else:
     print("GG:Not A Number Or Label")
     return
   elif code[i]==54:
-   if len(si)>0: i=si.pop()-1
+   if len(si)>0: i=si.pop()
    else:
     print("Cannot Return")
     return
